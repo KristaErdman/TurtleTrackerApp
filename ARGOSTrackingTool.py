@@ -9,6 +9,9 @@
 # Date:   Fall 2020
 #--------------------------------------------------------------
 
+# Ask user for search date
+user_date = input("Enter date to search for Sara: ")
+
 # Create a variable pointing to data file
 file_name = "./data/raw/sara.txt"
 
@@ -39,7 +42,7 @@ for lineString in line_list:
     # Assign variables to specfic items in the list
     record_id = lineData[0]             # ARGOS tracking record ID
     obs_date = lineData[2]   # Observation date
-    ob_lc = lineData[4]                 # Observation Location Class
+    obs_lc = lineData[4]                 # Observation Location Class
    # if obs_lc not in ("1", "2", "3"):
       #  continue
     obs_lat = lineData[6]               # Observation Latitude
@@ -47,7 +50,23 @@ for lineString in line_list:
     
     # Print information of sara if lc is 1, 2, 3
     if obs_lc in ("1", "2", "3"): 
-        print (f"Record {record_id} indicates Sara was seen at lat:{obs_lat}N and lon:{obs_lon}W on {obs_date}")
+       # print (f"Record {record_id} indicates Sara was seen at lat:{obs_lat}N and lon:{obs_lon}W on {obs_date}")
         date_dict[record_id] = obs_date
         coord_dict[record_id] = (obs_lat,obs_lon)
     
+# Creat an empty list to hold matching keys
+matching_keys = []
+
+# Loop through items in the date_dict and collect keys for matching ones 
+for date_item in date_dict.items():
+    # get the date and key of the dictionary item 
+    the_key, the_date = date_item
+    # see if the date matches the user date 
+    if the_date == user_date:
+        # if so, add key to the list
+        matching_keys.append(the_key)
+        
+# Reveal locations for each key in matching keys 
+for matching_key in matching_keys:
+    obs_lat, obs_lon = coord_dict[matching_key]
+    print (f"Record {matching_key} indicates Sara was seen at lat:{obs_lat}N and lon:{obs_lon}W on {user_date}")
